@@ -7,6 +7,21 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
+
+import os
+
+# Load environment variables from .env if present (safe in production)
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except Exception:
+    pass
+
+# mongoDB configuration (environment driven)
+MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
+MONGO_DATABASE = os.getenv("MONGO_DATABASE", "books")
+MONGO_COLLECTION = os.getenv("MONGO_COLLECTION", "books")
+
 BOT_NAME = "books"
 
 SPIDER_MODULES = ["books.spiders"]
@@ -88,10 +103,6 @@ USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTM
 
 # Set settings whose default value is deprecated to a future-proof value
 FEED_EXPORT_ENCODING = "utf-8"
-
-
-MONGO_URI = "mongodb://localhost:27017"
-MONGO_DATABASE = "books_db"
 
 LOG_LEVEL = "WARNING"
 LOG_FILE = "book_scraper.log"
